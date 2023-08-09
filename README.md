@@ -1,2 +1,2 @@
 # PlatformGame
-[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=edaagunes&repo=github-readme-stats)](https://github.com/edaagunes/github-readme-stats)
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=edaagunes&repo=PlatformGame)](https://github.com/edaagunes/PlatformGame)
