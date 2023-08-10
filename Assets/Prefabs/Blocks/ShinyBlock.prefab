@@ -181,3 +181,4 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
+  coinPrefab: {fileID: 6700552778455321307, guid: b1bdcca7b5029144690b25303e4effea, type: 3}

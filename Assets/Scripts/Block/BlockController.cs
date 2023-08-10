@@ -16,6 +16,10 @@ public class BlockController : MonoBehaviour
     bool isAnimStart;
     bool hareketDevam = true;
 
+    //blocktan coin cikmasi
+    public GameObject coinPrefab;
+    Vector3 coinPos;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -26,6 +30,10 @@ public class BlockController : MonoBehaviour
         orjinalPos = transform.position;
         animPos = transform.position;
         animPos.y += 0.15f;
+
+        //block carpttiktan sonra blok ustunde 1flik posda coin ciksin
+        coinPos = transform.position;
+        coinPos.y += 1f;
     }
 
     private void Update()
@@ -50,6 +58,8 @@ public class BlockController : MonoBehaviour
                 anim.Play("mat");
                 isAnimStart = true;
                 hareketDevam = false;
+
+                Instantiate(coinPrefab, coinPos, Quaternion.identity);
             }
         }
     }
