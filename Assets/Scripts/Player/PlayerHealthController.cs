@@ -18,11 +18,17 @@ public class PlayerHealthController : MonoBehaviour
     {
         currentHealth = maxHealth;
 
+        //Slider degerlerini saglik degerleri ile esledik
+        UIManager.Instance.SliderUpdate(currentHealth, maxHealth);
+
     }
 
     public void HealthDecrease()
     {
         currentHealth--;
+
+        //Saglik azaldikca slider da yansýyacak
+        UIManager.Instance.SliderUpdate(currentHealth, maxHealth);
 
         if (currentHealth<0)
         {

@@ -17,6 +17,11 @@ public class CollectManager : MonoBehaviour
         if(other.CompareTag("Player") && !isCollected)
         {
             isCollected = true;
+
+            //Toplanan coin sayisini arttirma
+            GameManager.Instance.collectedCoin++;
+            UIManager.Instance.CoinUpdate();
+
             Destroy(gameObject);
             Instantiate(coinEffect,transform.position,Quaternion.identity);
         }
