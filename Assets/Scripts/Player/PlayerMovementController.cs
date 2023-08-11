@@ -1,22 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovementController : MonoBehaviour
 {
     public static PlayerMovementController Instance;
 
     Rigidbody2D rb;
+    [SerializeField]
+    GameObject normalPlayer, swordPlayer;
 
     [SerializeField]
     Transform groundControlPoint;
     [SerializeField]
-    Animator anim;
+    Animator playerAnim,swordAnim; //(tum adlandirmalari guncellemek icin cift tik->yeniden adlandir)
     [SerializeField]
     float geriTepkiSuresi, geriTepkiGucu;
     float geriTepkiSayaci;
     [SerializeField]
-    SpriteRenderer sr;
+    SpriteRenderer playerSprite,swordSprite;
 
     public LayerMask groundMask;
 
@@ -27,22 +30,43 @@ public class PlayerMovementController : MonoBehaviour
     bool isGround;
     bool isDoubleJump;
     bool isDirectionRight;
+    bool isDie;
 
     private void Awake()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
+        isDie = false;
     }
 
     private void Update()
     {
+        if (isDie)
+        {
+            //player oldu ise update fonksiyonundan cik
+            return;
+        }
+
+
         if (geriTepkiSayaci <= 0)
         {
             Movement();
             Jump();
             ChangeDirection();
-            
-            sr.color = new Color(sr.color.r,sr.color.g,sr.color.b,1f);
+
+            //idle ve kilic spritelarý geri tepkisi icin ayri ayri alfa ayari
+
+            if (normalPlayer.activeSelf)
+            {
+                playerSprite.color = new Color(playerSprite.color.r, playerSprite.color.g, playerSprite.color.b, 1f);
+            }
+
+            if (swordPlayer.activeSelf)
+            {
+                swordSprite.color = new Color(swordSprite.color.r, swordSprite.color.g, swordSprite.color.b, 1f);
+            }
+
+
         }
         else
         {
@@ -58,11 +82,23 @@ public class PlayerMovementController : MonoBehaviour
 
         }
 
+        //player hangi sprite da anlamak icin
+        if (normalPlayer.activeSelf)
+        {
+            //idle anim calissin
+            playerAnim.SetBool("isGround", isGround);
+            playerAnim.SetFloat("movementSpeed", Mathf.Abs(rb.velocity.x));
+        }
+
+        //player kilic da aktifse
+        if (swordPlayer.activeSelf)
+        {
+            //kilic anim calissin
+            swordAnim.SetBool("isGround", isGround);
+            swordAnim.SetFloat("movementSpeed", Mathf.Abs(rb.velocity.x));
+        }
 
 
-
-        anim.SetBool("isGround", isGround);
-        anim.SetFloat("movementSpeed", Mathf.Abs(rb.velocity.x));
     }
 
     void Movement()
@@ -116,7 +152,72 @@ public class PlayerMovementController : MonoBehaviour
     {
         geriTepkiSayaci = geriTepkiSuresi;
         //hasar aldiktan sonra karakterin soluklasmasi
-        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
+
+        if (normalPlayer.activeSelf)
+        {
+            playerSprite.color = new Color(playerSprite.color.r, playerSprite.color.g, playerSprite.color.b, 0.5f);
+        }
+
+        if (swordPlayer.activeSelf)
+        {
+            swordSprite.color = new Color(swordSprite.color.r, swordSprite.color.g, swordSprite.color.b, 0.5f);
+        }
+
         rb.velocity = new Vector2 (0, rb.velocity.y);
     }
+
+    public void PlayerDie()
+    {
+        //oldu ise hizi sifir olmali
+        rb.velocity = Vector2.zero;
+        isDie = true;
+
+
+        //player hangi sprite da anlamak icin
+        if (normalPlayer.activeSelf)
+        {
+            //idle die anim calissin
+            playerAnim.SetTrigger("isDie");
+        }
+
+        //player kilic da aktifse
+        if (swordPlayer.activeSelf)
+        {
+            //kilic die anim calissin
+            swordAnim.SetTrigger("isDie");
+        }
+
+
+       
+
+        //IEnumatoru tetiklemek icin
+        StartCoroutine(AgainLoadScene());
+    }
+
+    //player oldukten sonra tekrar sahneyi baslatsin
+    IEnumerator AgainLoadScene()
+    {
+        yield return new WaitForSeconds(2f);
+
+        //destroy edildiginde karakterin tum comp.gittigi icin alt satiri islemiyor,sahne yuklenmiyor
+        //bunun yerine karakterin sprite rend. silinebilir
+        //// Destroy(gameObject);
+        
+        //player sprite hiyerarside alt satirda oldugu icin inchildren ile erisebiliriz
+        //sprite renderer kapatildiginda karakter ekrandan yok olacak ve sahne yeniden yuklenebilecek
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
+
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    //kilic topladiktan sonra kilicli player gecis
+    public void TurnSwordPlayer()
+    {
+        normalPlayer.SetActive(false);
+        swordPlayer.SetActive(true);
+    }
+
+
 }

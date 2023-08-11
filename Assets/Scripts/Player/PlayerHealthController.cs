@@ -33,7 +33,10 @@ public class PlayerHealthController : MonoBehaviour
         if (currentHealth<0)
         {
             currentHealth = 0;
-            gameObject.SetActive(false);
+            //  gameObject.SetActive(false);
+            //cani bittiginde olsun
+            PlayerMovementController.Instance.PlayerDie();
+
         }
     }
 }
