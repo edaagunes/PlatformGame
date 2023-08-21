@@ -10,6 +10,8 @@ public class PlayerMovementController : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField]
     GameObject normalPlayer, swordPlayer;
+    [SerializeField]
+    GameObject kilicVurusBoxObje;
 
     [SerializeField]
     Transform groundControlPoint;
@@ -31,12 +33,16 @@ public class PlayerMovementController : MonoBehaviour
     bool isDoubleJump;
     bool isDirectionRight;
     bool isDie;
+    bool isAttack;
 
     private void Awake()
     {
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         isDie = false;
+        isAttack = false;
+
+        kilicVurusBoxObje.SetActive(false);
     }
 
     private void Update()
@@ -65,6 +71,18 @@ public class PlayerMovementController : MonoBehaviour
             {
                 swordSprite.color = new Color(swordSprite.color.r, swordSprite.color.g, swordSprite.color.b, 1f);
             }
+
+            //attack idle na gecsin
+            if (Input.GetMouseButtonDown(0) && swordPlayer.activeSelf)
+            {
+                isAttack = true;
+                kilicVurusBoxObje.SetActive(true);
+            }
+            else
+            {
+                isAttack = false;
+            }
+
 
 
         }
@@ -96,6 +114,17 @@ public class PlayerMovementController : MonoBehaviour
             //kilic anim calissin
             swordAnim.SetBool("isGround", isGround);
             swordAnim.SetFloat("movementSpeed", Mathf.Abs(rb.velocity.x));
+
+        }
+
+        if (isAttack && swordPlayer.activeSelf)
+        {
+
+            //attack animasyonunu tetikletme
+            if (isAttack)
+            {
+                swordAnim.SetTrigger("isAttack");
+            }
         }
 
 
