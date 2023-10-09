@@ -152,6 +152,7 @@ MonoBehaviour:
   - {fileID: 5521428434924394157}
   - {fileID: 5521428433926206405}
   spiderSlider: {fileID: 5521428434721205256}
+  potionPrefab: {fileID: 7357631338695289367, guid: debe5c368980a7a41808fa2b2a3c7f2e, type: 3}
   maxHealth: 3
   spiderSpeed: 5
   waitingTime: 1

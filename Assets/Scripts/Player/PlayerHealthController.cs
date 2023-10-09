@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealthController : MonoBehaviour
 {
@@ -38,5 +39,15 @@ public class PlayerHealthController : MonoBehaviour
             PlayerMovementController.Instance.PlayerDie();
 
         }
+    }
+
+    public void AddingHealth()
+    {
+        currentHealth++;
+
+        if (currentHealth  >= maxHealth)
+            currentHealth = maxHealth;
+        
+        UIManager.Instance.SliderUpdate(currentHealth, maxHealth);
     }
 }

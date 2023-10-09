@@ -11,6 +11,10 @@ public class SpiderController : MonoBehaviour
     [SerializeField]
     Slider spiderSlider;
 
+    [SerializeField]
+    GameObject potionPrefab;
+
+
     public int maxHealth;
     int currentHealth;
 
@@ -176,6 +180,9 @@ public class SpiderController : MonoBehaviour
             //orumcek oldu
             isCanAttack=false;
             currentHealth = 0;
+
+            Instantiate(potionPrefab, transform.position, Quaternion.identity);
+
             anim.SetTrigger("isDie");
             spiderCollider.enabled = false;
             spiderSlider.gameObject.SetActive(false);

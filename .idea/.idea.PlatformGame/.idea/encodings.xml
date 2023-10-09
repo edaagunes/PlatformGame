@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with BOM under Windows, with no BOM otherwise">
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Bat/BatController.cs" charset="windows-1254" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Spider/SpiderController.cs" charset="windows-1254" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerHealthController.cs" charset="windows-1254" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovementController.cs" charset="windows-1254" />
+    <file url="PROJECT" charset="windows-1254" />
+  </component>
+</project>

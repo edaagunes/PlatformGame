@@ -5,10 +5,13 @@ using UnityEngine;
 public class CollectManager : MonoBehaviour
 {
     [SerializeField]
+    bool isPotion;
+
+    [SerializeField]
     bool isCoin;
     bool isCollected;
     [SerializeField]
-    GameObject coinEffect;
+    GameObject patlamaEffect;
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -16,14 +19,28 @@ public class CollectManager : MonoBehaviour
 
         if(other.CompareTag("Player") && !isCollected)
         {
-            isCollected = true;
+            if (isCoin)
+            {
+                isCollected = true;
 
-            //Toplanan coin sayisini arttirma
-            GameManager.Instance.collectedCoin++;
-            UIManager.Instance.CoinUpdate();
+                //Toplanan coin sayisini arttirma
+                GameManager.Instance.collectedCoin++;
+                UIManager.Instance.CoinUpdate();
 
-            Destroy(gameObject);
-            Instantiate(coinEffect,transform.position,Quaternion.identity);
+                Destroy(gameObject);
+                Instantiate(patlamaEffect, transform.position, Quaternion.identity);
+            }
+
+            if (isPotion)
+            {
+                isCollected = true;
+
+                PlayerHealthController.Instance.AddingHealth();
+
+                Destroy(gameObject);
+                Instantiate(patlamaEffect, transform.position, Quaternion.identity);
+            }
+           
         }
     }
 }

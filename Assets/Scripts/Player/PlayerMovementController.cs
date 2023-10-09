@@ -32,7 +32,7 @@ public class PlayerMovementController : MonoBehaviour
     bool isGround;
     bool isDoubleJump;
     bool isDirectionRight;
-    bool isDie;
+    public bool isDie;
     bool isAttack;
 
     private void Awake()
