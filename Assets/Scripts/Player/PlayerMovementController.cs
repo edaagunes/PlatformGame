@@ -247,7 +247,7 @@ public class PlayerMovementController : MonoBehaviour
         
         if (spearPlayer.activeSelf)
         {
-            //kilic die anim calissin
+            //mizrak die anim calissin
             spearAnim.SetTrigger("canVerdi");
         }
 
