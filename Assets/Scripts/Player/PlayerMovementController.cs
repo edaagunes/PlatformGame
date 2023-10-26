@@ -9,25 +9,25 @@ public class PlayerMovementController : MonoBehaviour
 
     Rigidbody2D rb;
     [SerializeField]
-    GameObject normalPlayer, swordPlayer;
+    GameObject normalPlayer, swordPlayer, spearPlayer;
     [SerializeField]
     GameObject kilicVurusBoxObje;
 
     [SerializeField]
     Transform groundControlPoint;
     [SerializeField]
-    Animator playerAnim,swordAnim; //(tum adlandirmalari guncellemek icin cift tik->yeniden adlandir)
+    Animator playerAnim,swordAnim,spearAnim; //(tum adlandirmalari guncellemek icin cift tik->yeniden adlandir)
     [SerializeField]
     float geriTepkiSuresi, geriTepkiGucu;
     float geriTepkiSayaci;
     [SerializeField]
-    SpriteRenderer playerSprite,swordSprite;
+    SpriteRenderer playerSprite,swordSprite,spearSprite;
 
     public LayerMask groundMask;
 
 
     public float movementSpeed;
-    public float jumpPower;
+    public float jumpPower;                                                                 
 
     bool isGround;
     bool isDoubleJump;
@@ -71,8 +71,13 @@ public class PlayerMovementController : MonoBehaviour
             {
                 swordSprite.color = new Color(swordSprite.color.r, swordSprite.color.g, swordSprite.color.b, 1f);
             }
+            
+            if (spearPlayer.activeSelf)
+            {
+                spearSprite.color = new Color(spearSprite.color.r, spearSprite.color.g, spearSprite.color.b, 1f);
+            }
 
-            //attack idle na gecsin
+            //kilic attack idle na gecsin
             if (Input.GetMouseButtonDown(0) && swordPlayer.activeSelf)
             {
                 isAttack = true;
@@ -81,6 +86,16 @@ public class PlayerMovementController : MonoBehaviour
             else
             {
                 isAttack = false;
+            }
+            
+            //mizrak
+            if (Input.GetMouseButtonDown(0) && spearPlayer.activeSelf)
+            {
+                
+            }
+            else
+            {
+                
             }
 
 
@@ -114,6 +129,15 @@ public class PlayerMovementController : MonoBehaviour
             //kilic anim calissin
             swordAnim.SetBool("isGround", isGround);
             swordAnim.SetFloat("movementSpeed", Mathf.Abs(rb.velocity.x));
+
+        }
+        
+        //player mizrak da aktifse
+        if (spearPlayer.activeSelf)
+        {
+            //kilic anim calissin
+            spearAnim.SetBool("isOnGround", isGround);
+            spearAnim.SetFloat("moveSpeed", Mathf.Abs(rb.velocity.x));
 
         }
 
@@ -191,6 +215,11 @@ public class PlayerMovementController : MonoBehaviour
         {
             swordSprite.color = new Color(swordSprite.color.r, swordSprite.color.g, swordSprite.color.b, 0.5f);
         }
+        
+        if (spearPlayer.activeSelf)
+        {
+            spearSprite.color = new Color(spearSprite.color.r, spearSprite.color.g, spearSprite.color.b, 0.5f);
+        }
 
         rb.velocity = new Vector2 (0, rb.velocity.y);
     }
@@ -215,7 +244,12 @@ public class PlayerMovementController : MonoBehaviour
             //kilic die anim calissin
             swordAnim.SetTrigger("isDie");
         }
-
+        
+        if (spearPlayer.activeSelf)
+        {
+            //kilic die anim calissin
+            spearAnim.SetTrigger("canVerdi");
+        }
 
        
 
@@ -246,7 +280,15 @@ public class PlayerMovementController : MonoBehaviour
     {
         normalPlayer.SetActive(false);
         swordPlayer.SetActive(true);
+        spearPlayer.SetActive(false);
     }
 
+    //her þeyi kapat mizrak ac
+    public void TurnSpearPlayer()
+    {
+        normalPlayer.SetActive(false);
+        swordPlayer.SetActive(false);
+        spearPlayer.SetActive(true);
+    }
 
 }
