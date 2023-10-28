@@ -53,4 +53,32 @@ public class BoarController : MonoBehaviour
             anim.SetBool("isRun", false);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (boarCollider.IsTouchingLayers(LayerMask.GetMask("PlayerLayer")))
+        {
+            if (other.CompareTag("Player"))
+            {
+                anim.SetTrigger("isAttack");
+                other.GetComponent<PlayerMovementController>().GeriTepki();
+                other.GetComponent<PlayerHealthController>().HealthDecrease();
+            }
+        }
+    }
+
+    public void BoarDie()
+    {
+        isBoarDie = true;
+        anim.SetTrigger("isDie");
+        
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
+
+        foreach (BoxCollider2D box in GetComponents<BoxCollider2D>())
+        {
+            box.enabled = false;
+        }
+        Destroy(gameObject,3f);
+    }
 }

@@ -8,26 +8,25 @@ public class PlayerMovementController : MonoBehaviour
     public static PlayerMovementController Instance;
 
     Rigidbody2D rb;
-    [SerializeField]
-    GameObject normalPlayer, swordPlayer, spearPlayer;
-    [SerializeField]
-    GameObject kilicVurusBoxObje;
+    [SerializeField] GameObject normalPlayer, swordPlayer, spearPlayer;
+    [SerializeField] GameObject kilicVurusBoxObje;
+
+    [SerializeField] Transform groundControlPoint;
 
     [SerializeField]
-    Transform groundControlPoint;
-    [SerializeField]
-    Animator playerAnim,swordAnim,spearAnim; //(tum adlandirmalari guncellemek icin cift tik->yeniden adlandir)
-    [SerializeField]
-    float geriTepkiSuresi, geriTepkiGucu;
+    Animator playerAnim, swordAnim, spearAnim; //(tum adlandirmalari guncellemek icin cift tik->yeniden adlandir)
+
+    [SerializeField] float geriTepkiSuresi, geriTepkiGucu;
     float geriTepkiSayaci;
-    [SerializeField]
-    SpriteRenderer playerSprite,swordSprite,spearSprite;
+    [SerializeField] SpriteRenderer playerSprite, swordSprite, spearSprite;
 
+    [SerializeField] private GameObject throwSpear;
+    [SerializeField] private Transform mizrakCikisNoktasi;
     public LayerMask groundMask;
 
 
     public float movementSpeed;
-    public float jumpPower;                                                                 
+    public float jumpPower;
 
     bool isGround;
     bool isDoubleJump;
@@ -71,7 +70,7 @@ public class PlayerMovementController : MonoBehaviour
             {
                 swordSprite.color = new Color(swordSprite.color.r, swordSprite.color.g, swordSprite.color.b, 1f);
             }
-            
+
             if (spearPlayer.activeSelf)
             {
                 spearSprite.color = new Color(spearSprite.color.r, spearSprite.color.g, spearSprite.color.b, 1f);
@@ -87,32 +86,25 @@ public class PlayerMovementController : MonoBehaviour
             {
                 isAttack = false;
             }
-            
+
             //mizrak
-            if (Input.GetMouseButtonDown(0) && spearPlayer.activeSelf)
+            if (Input.GetKeyDown(KeyCode.W) && spearPlayer.activeSelf)
             {
-                
+                spearAnim.SetTrigger("mizrakAtti");
+                Invoke("ThrowSpear",.5f);
             }
-            else
-            {
-                
-            }
-
-
-
         }
         else
         {
             geriTepkiSayaci -= Time.deltaTime;
             if (isDirectionRight)
             {
-                rb.velocity = new Vector2(-geriTepkiGucu,rb.velocity.y);
+                rb.velocity = new Vector2(-geriTepkiGucu, rb.velocity.y);
             }
             else
             {
                 rb.velocity = new Vector2(-geriTepkiGucu, rb.velocity.y);
             }
-
         }
 
         //player hangi sprite da anlamak icin
@@ -129,54 +121,55 @@ public class PlayerMovementController : MonoBehaviour
             //kilic anim calissin
             swordAnim.SetBool("isGround", isGround);
             swordAnim.SetFloat("movementSpeed", Mathf.Abs(rb.velocity.x));
-
         }
-        
+
         //player mizrak da aktifse
         if (spearPlayer.activeSelf)
         {
             //kilic anim calissin
             spearAnim.SetBool("isOnGround", isGround);
             spearAnim.SetFloat("moveSpeed", Mathf.Abs(rb.velocity.x));
-
         }
 
         if (isAttack && swordPlayer.activeSelf)
         {
-
             //attack animasyonunu tetikletme
             if (isAttack)
             {
                 swordAnim.SetTrigger("isAttack");
             }
         }
-
-
     }
 
     void Movement()
     {
         float h = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(h * movementSpeed, rb.velocity.y); //xdeki hýzý,ydeki hýzý
-
-
     }
 
+    void ThrowSpear()
+    {
+        GameObject spear = Instantiate(throwSpear, mizrakCikisNoktasi.position, mizrakCikisNoktasi.rotation);
+        spear.transform.localScale = transform.localScale;
+        spear.GetComponent<Rigidbody2D>().velocity = mizrakCikisNoktasi.right * transform.localScale.x * 7f;
+        
+        Invoke("TurnNormalPlayer",.1f);
+        
+    }
+    
     //atese yaklastiginda yon degistir
     void ChangeDirection()
     {
-
-        if (rb.velocity.x < 0)//Karakterin yonu degistirildi
+        if (rb.velocity.x < 0) //Karakterin yonu degistirildi
         {
             transform.localScale = new Vector3(-1, 1, 1);
             isDirectionRight = false;
         }
         else if (rb.velocity.x > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);//Vector3.one
+            transform.localScale = new Vector3(1, 1, 1); //Vector3.one
             isDirectionRight = true;
         }
-
     }
 
     void Jump()
@@ -195,10 +188,7 @@ public class PlayerMovementController : MonoBehaviour
             }
 
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-
-            
         }
-
     }
 
     public void GeriTepki()
@@ -215,13 +205,13 @@ public class PlayerMovementController : MonoBehaviour
         {
             swordSprite.color = new Color(swordSprite.color.r, swordSprite.color.g, swordSprite.color.b, 0.5f);
         }
-        
+
         if (spearPlayer.activeSelf)
         {
             spearSprite.color = new Color(spearSprite.color.r, spearSprite.color.g, spearSprite.color.b, 0.5f);
         }
 
-        rb.velocity = new Vector2 (0, rb.velocity.y);
+        rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     public void PlayerDie()
@@ -244,14 +234,13 @@ public class PlayerMovementController : MonoBehaviour
             //kilic die anim calissin
             swordAnim.SetTrigger("isDie");
         }
-        
+
         if (spearPlayer.activeSelf)
         {
             //mizrak die anim calissin
             spearAnim.SetTrigger("canVerdi");
         }
 
-       
 
         //IEnumatoru tetiklemek icin
         StartCoroutine(AgainLoadScene());
@@ -265,7 +254,7 @@ public class PlayerMovementController : MonoBehaviour
         //destroy edildiginde karakterin tum comp.gittigi icin alt satiri islemiyor,sahne yuklenmiyor
         //bunun yerine karakterin sprite rend. silinebilir
         //// Destroy(gameObject);
-        
+
         //player sprite hiyerarside alt satirda oldugu icin inchildren ile erisebiliriz
         //sprite renderer kapatildiginda karakter ekrandan yok olacak ve sahne yeniden yuklenebilecek
         GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -291,4 +280,10 @@ public class PlayerMovementController : MonoBehaviour
         spearPlayer.SetActive(true);
     }
 
+    public void TurnNormalPlayer()
+    {
+        normalPlayer.SetActive(true);
+        swordPlayer.SetActive(false);
+        spearPlayer.SetActive(false);
+    } 
 }
