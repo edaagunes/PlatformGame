@@ -19,8 +19,14 @@ public class PlayerHealthController : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        //Slider degerlerini saglik degerleri ile esledik
-        UIManager.Instance.SliderUpdate(currentHealth, maxHealth);
+        //UIManager nesnesi varsa gerceklestir ki giris sahnesinde olmadigi icin hata vermesin
+        if (UIManager.Instance != null)
+        {
+            //Slider degerlerini saglik degerleri ile esledik
+            UIManager.Instance.SliderUpdate(currentHealth, maxHealth);
+
+        }
+        
 
     }
 
