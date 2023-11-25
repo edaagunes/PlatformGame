@@ -286,4 +286,26 @@ public class PlayerMovementController : MonoBehaviour
         swordPlayer.SetActive(false);
         spearPlayer.SetActive(false);
     } 
+    
+    //Player sahneler arasi geciste hareket etmesin
+    public void PlayerStop()
+    {
+        if (normalPlayer.activeSelf)
+        {
+            rb.velocity=Vector2.zero;
+            playerAnim.SetFloat("movementSpeed",0f);
+        }
+        
+        if (swordPlayer.activeSelf)
+        {
+            rb.velocity=Vector2.zero;
+            swordAnim.SetFloat("movementSpeed",0f);
+        }
+        
+        if (spearPlayer.activeSelf)
+        {
+            rb.velocity=Vector2.zero;
+            spearAnim.SetFloat("movementSpeed",0f);
+        }
+    }
 }
