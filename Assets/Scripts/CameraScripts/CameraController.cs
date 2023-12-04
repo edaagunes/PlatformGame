@@ -17,6 +17,7 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         player = Object.FindObjectOfType<PlayerMovementController>();
+        
     }
 
     private void Start()
