@@ -45,7 +45,12 @@ public class CameraController : MonoBehaviour
                 transform.position.z);//z yönünde kameranýn transformunu aldýk,2d olduðundan ekranda görmek için
 
         }
-        BackgroundHareket();
+
+        if (backgrounds != null)
+        {
+            BackgroundHareket();
+        }
+        
     }
 
     void BackgroundHareket()
