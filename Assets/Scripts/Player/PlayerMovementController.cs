@@ -8,17 +8,17 @@ public class PlayerMovementController : MonoBehaviour
     public static PlayerMovementController Instance;
 
     Rigidbody2D rb;
-    [SerializeField] GameObject normalPlayer, swordPlayer, spearPlayer;
+    [SerializeField] GameObject normalPlayer, swordPlayer, spearPlayer, bowPlayer;
     [SerializeField] GameObject kilicVurusBoxObje;
 
     [SerializeField] Transform groundControlPoint;
 
     [SerializeField]
-    Animator playerAnim, swordAnim, spearAnim; //(tum adlandirmalari guncellemek icin cift tik->yeniden adlandir)
+    Animator playerAnim, swordAnim, spearAnim, bowAnim; //(tum adlandirmalari guncellemek icin cift tik->yeniden adlandir)
 
     [SerializeField] float geriTepkiSuresi, geriTepkiGucu;
     float geriTepkiSayaci;
-    [SerializeField] SpriteRenderer playerSprite, swordSprite, spearSprite;
+    [SerializeField] SpriteRenderer playerSprite, swordSprite, spearSprite, bowSprite;
 
     [SerializeField] private GameObject throwSpear;
     [SerializeField] private Transform mizrakCikisNoktasi;
@@ -75,6 +75,11 @@ public class PlayerMovementController : MonoBehaviour
             {
                 spearSprite.color = new Color(spearSprite.color.r, spearSprite.color.g, spearSprite.color.b, 1f);
             }
+            
+            if (bowPlayer.activeSelf)
+            {
+                bowSprite.color = new Color(bowSprite.color.r, bowSprite.color.g, bowSprite.color.b, 1f);
+            }
 
             //kilic attack idle na gecsin
             if (Input.GetMouseButtonDown(0) && swordPlayer.activeSelf)
@@ -129,6 +134,14 @@ public class PlayerMovementController : MonoBehaviour
             //kilic anim calissin
             spearAnim.SetBool("isOnGround", isGround);
             spearAnim.SetFloat("moveSpeed", Mathf.Abs(rb.velocity.x));
+        }
+        
+        //player ok da aktifse
+        if (bowPlayer.activeSelf)
+        {
+            //ok anim calissin
+            bowAnim.SetBool("isGround", isGround);
+            bowAnim.SetFloat("moveSpeed", Mathf.Abs(rb.velocity.x));
         }
 
         if (isAttack && swordPlayer.activeSelf)
@@ -210,6 +223,11 @@ public class PlayerMovementController : MonoBehaviour
         {
             spearSprite.color = new Color(spearSprite.color.r, spearSprite.color.g, spearSprite.color.b, 0.5f);
         }
+        
+        if (bowPlayer.activeSelf)
+        {
+            bowSprite.color = new Color(bowSprite.color.r, bowSprite.color.g, bowSprite.color.b, 0.5f);
+        }
 
         rb.velocity = new Vector2(0, rb.velocity.y);
     }
@@ -239,6 +257,12 @@ public class PlayerMovementController : MonoBehaviour
         {
             //mizrak die anim calissin
             spearAnim.SetTrigger("canVerdi");
+        }
+        
+        if (bowPlayer.activeSelf)
+        {
+            //mizrak die anim calissin
+            bowAnim.SetTrigger("isDeath");
         }
 
 
@@ -270,6 +294,7 @@ public class PlayerMovementController : MonoBehaviour
         normalPlayer.SetActive(false);
         swordPlayer.SetActive(true);
         spearPlayer.SetActive(false);
+        bowPlayer.SetActive(false);
     }
 
     //her þeyi kapat mizrak ac
@@ -278,6 +303,7 @@ public class PlayerMovementController : MonoBehaviour
         normalPlayer.SetActive(false);
         swordPlayer.SetActive(false);
         spearPlayer.SetActive(true);
+        bowPlayer.SetActive(false);
     }
 
     public void TurnNormalPlayer()
@@ -285,6 +311,15 @@ public class PlayerMovementController : MonoBehaviour
         normalPlayer.SetActive(true);
         swordPlayer.SetActive(false);
         spearPlayer.SetActive(false);
+        bowPlayer.SetActive(false);
+    } 
+    
+    public void TurnBowPlayer()
+    {
+        normalPlayer.SetActive(false);
+        swordPlayer.SetActive(false);
+        spearPlayer.SetActive(false);
+        bowPlayer.SetActive(true);
     } 
     
     //Player sahneler arasi geciste hareket etmesin
@@ -306,6 +341,12 @@ public class PlayerMovementController : MonoBehaviour
         {
             rb.velocity=Vector2.zero;
             spearAnim.SetFloat("movementSpeed",0f);
+        }
+        
+        if (bowPlayer.activeSelf)
+        {
+            rb.velocity=Vector2.zero;
+            bowAnim.SetFloat("moveSpeed",0f);
         }
     }
 }

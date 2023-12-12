@@ -13294,16 +13294,19 @@ MonoBehaviour:
   normalPlayer: {fileID: 2370162575015727675}
   swordPlayer: {fileID: 2370162573602709037}
   spearPlayer: {fileID: 2370162573504305415}
+  bowPlayer: {fileID: 1329694806}
   kilicVurusBoxObje: {fileID: 2370162573898028789}
   groundControlPoint: {fileID: 2370162573581482424}
   playerAnim: {fileID: 2370162575015727678}
   swordAnim: {fileID: 2370162573602709040}
   spearAnim: {fileID: 2370162573504305417}
+  bowAnim: {fileID: 1329694809}
   geriTepkiSuresi: 0.5
   geriTepkiGucu: 5
   playerSprite: {fileID: 2370162575015727677}
   swordSprite: {fileID: 2370162573602709041}
   spearSprite: {fileID: 2370162573504305418}
+  bowSprite: {fileID: 1329694808}
   throwSpear: {fileID: 4327843475729719229, guid: 0d8976fa21bdcfa40993c2bcc970c67c, type: 3}
   mizrakCikisNoktasi: {fileID: 2370162574703098405}
   groundMask:
