@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunsCollectManager : MonoBehaviour
 {
-    [SerializeField] private bool isSword, isSpear; //toplanilan kilic mi mizrak mi
+    [SerializeField] private bool isSword, isSpear, isBow; //toplanilan kilic mi mizrak mi
     
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -22,6 +22,13 @@ public class GunsCollectManager : MonoBehaviour
             if (other != null && isSpear)
             {
                 other.GetComponent<PlayerMovementController>().TurnSpearPlayer();
+
+                
+            }
+            
+            if (other != null && isBow)
+            {
+                other.GetComponent<PlayerMovementController>().TurnBowPlayer();
 
                 
             }
