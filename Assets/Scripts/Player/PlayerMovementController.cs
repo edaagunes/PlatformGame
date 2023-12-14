@@ -24,6 +24,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private Transform mizrakCikisNoktasi;
     public LayerMask groundMask;
 
+    [SerializeField] private GameObject throwArrow;
+    [SerializeField] private Transform okCikisNoktasi;
 
     public float movementSpeed;
     public float jumpPower;
@@ -98,6 +100,14 @@ public class PlayerMovementController : MonoBehaviour
                 spearAnim.SetTrigger("mizrakAtti");
                 Invoke("ThrowSpear",.5f);
             }
+
+            //ok
+            if (Input.GetKeyDown(KeyCode.E) && bowPlayer.activeSelf)
+            {
+                bowAnim.SetTrigger("okAtti");
+                Invoke("ThrowArrow",.7f);
+            }
+            
         }
         else
         {
@@ -168,6 +178,14 @@ public class PlayerMovementController : MonoBehaviour
         
         Invoke("TurnNormalPlayer",.1f);
         
+    }
+
+    // ok firlatma
+    void ThrowArrow()
+    {
+        GameObject arrow = Instantiate(throwArrow,okCikisNoktasi.position,okCikisNoktasi.rotation);
+        arrow.transform.localScale = transform.localScale; //playerýn yonu nereye donerse ok da donsun
+        arrow.GetComponent<Rigidbody2D>().velocity = okCikisNoktasi.right * transform.localScale.x * 15f;
     }
     
     //atese yaklastiginda yon degistir

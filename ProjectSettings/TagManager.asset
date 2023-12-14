@@ -8,6 +8,7 @@ TagManager:
   - Spider
   - Bat
   - Boar
+  - Arrow
   layers:
   - Default
   - TransparentFX
