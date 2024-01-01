@@ -38,6 +38,7 @@ public class PlayerMovementController : MonoBehaviour
     bool isAttack;
     private bool isThrowArrow; //ok atabilir mi
 
+    [SerializeField] private float tirmanisHizi=3f;
     private void Awake()
     {
         Instance = this;
@@ -98,7 +99,7 @@ public class PlayerMovementController : MonoBehaviour
             }
 
             //mizrak
-            if (Input.GetKeyDown(KeyCode.W) && spearPlayer.activeSelf)
+            if (Input.GetKeyDown(KeyCode.E) && spearPlayer.activeSelf)
             {
                 spearAnim.SetTrigger("mizrakAtti");
                 Invoke("ThrowSpear", .5f);
@@ -111,6 +112,29 @@ public class PlayerMovementController : MonoBehaviour
                 StartCoroutine(ThrowArrowLaterRoutine());
                 //  Invoke("ThrowArrow",.7f);
             }
+
+            if (bowPlayer.activeSelf)
+            {
+                if (GetComponent<BoxCollider2D>().IsTouchingLayers(LayerMask.GetMask("MerdivenLayer")))
+                {
+                    float h = Input.GetAxis("Vertical");
+
+                    Vector2 tirmanisVector = new Vector2(rb.velocity.x, h * tirmanisHizi);
+                    rb.velocity = tirmanisVector;
+                    rb.gravityScale = 0f;
+                    
+                    
+                    bowAnim.SetBool("isClimb",true);
+                    bowAnim.SetFloat("upMoveSpeed",Mathf.Abs(rb.velocity.y));
+                }
+                else
+                {
+                    bowAnim.SetBool("isClimb",false);
+                    rb.gravityScale = 1f;
+                }
+            }
+            
+            
         }
         else
         {

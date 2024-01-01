@@ -22,14 +22,14 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        //kameranın +y yönündeki yüksekliğinde oyunu başlat(6 birim)
+        //kameranÄ±n +y yÃ¶nÃ¼ndeki yÃ¼ksekliÄŸinde oyunu baÅŸlat(6 birim)
         halfYukseklik = Camera.main.orthographicSize;
 
-        //kameranın +x yönündeki genişliği
+        //kameranÄ±n +x yÃ¶nÃ¼ndeki geniÅŸliÄŸi
         halfGenislik = halfYukseklik * Camera.main.aspect; //6*1.7
 
-        //print(Camera.main.aspect);//aspect: yükseklikle eninin arasındaki oran
-        //1920x1080 çözünürlükteyken 1920/1080=1.7  
+        //print(Camera.main.aspect);//aspect: yÃ¼kseklikle eninin arasÄ±ndaki oran
+        //1920x1080 Ã§Ã¶zÃ¼nÃ¼rlÃ¼kteyken 1920/1080=1.7  
 
         sonPos = transform.position;
     }
@@ -38,11 +38,11 @@ public class CameraController : MonoBehaviour
     {
         if (player!=null)
         {
-            //kameranın oyuncuyu takip etmesi
+            //kameranÄ±n oyuncuyu takip etmesi
             transform.position = new Vector3(
-                Mathf.Clamp(player.transform.position.x,boundsBox.bounds.min.x+halfGenislik,boundsBox.bounds.max.x-halfGenislik),//kameranın kaymasını engelledik
+                Mathf.Clamp(player.transform.position.x,boundsBox.bounds.min.x+halfGenislik,boundsBox.bounds.max.x-halfGenislik),//kameranÄ±n kaymasÄ±nÄ± engelledik
                 Mathf.Clamp(player.transform.position.y,boundsBox.bounds.min.y+halfYukseklik,boundsBox.bounds.max.y-halfYukseklik),
-                transform.position.z);//z yönünde kameranın transformunu aldık,2d olduğundan ekranda görmek için
+                transform.position.z);//z yÃ¶nÃ¼nde kameranÄ±n transformunu aldÄ±k,2d olduÄŸundan ekranda gÃ¶rmek iÃ§in
 
         }
 
@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
     void BackgroundHareket()
     {
         Vector2 aradakiFark= new Vector2(transform.position.x-sonPos.x,transform.position.y-sonPos.y);
-        backgrounds.position += new Vector3(aradakiFark.x, aradakiFark.y, 0f);//bir sonraki hareket arasındaki fark kadar kaydırmak için
+        backgrounds.position += new Vector3(aradakiFark.x, aradakiFark.y, 0f);//bir sonraki hareket arasÄ±ndaki fark kadar kaydÄ±rmak iÃ§in
         sonPos = transform.position;
     }
 }
