@@ -39,6 +39,10 @@ public class PlayerMovementController : MonoBehaviour
     private bool isThrowArrow; //ok atabilir mi
 
     [SerializeField] private float tirmanisHizi=3f;
+    
+    //Kameralar
+    [SerializeField] private GameObject normalCam, kilicCam, okCam, mizrakCam;
+    
     private void Awake()
     {
         Instance = this;
@@ -352,6 +356,9 @@ public class PlayerMovementController : MonoBehaviour
     //kilic topladiktan sonra kilicli player gecis
     public void TurnSwordPlayer()
     {
+        CloseAllCams();
+        kilicCam.SetActive(true);
+        
         normalPlayer.SetActive(false);
         swordPlayer.SetActive(true);
         spearPlayer.SetActive(false);
@@ -361,6 +368,9 @@ public class PlayerMovementController : MonoBehaviour
     //her þeyi kapat mizrak ac
     public void TurnSpearPlayer()
     {
+        CloseAllCams();
+        mizrakCam.SetActive(true);
+        
         normalPlayer.SetActive(false);
         swordPlayer.SetActive(false);
         spearPlayer.SetActive(true);
@@ -369,6 +379,9 @@ public class PlayerMovementController : MonoBehaviour
 
     public void TurnNormalPlayer()
     {
+        CloseAllCams();
+        normalCam.SetActive(true);
+        
         normalPlayer.SetActive(true);
         swordPlayer.SetActive(false);
         spearPlayer.SetActive(false);
@@ -377,12 +390,23 @@ public class PlayerMovementController : MonoBehaviour
 
     public void TurnBowPlayer()
     {
+        CloseAllCams();
+        okCam.SetActive(true);
+        
         normalPlayer.SetActive(false);
         swordPlayer.SetActive(false);
         spearPlayer.SetActive(false);
         bowPlayer.SetActive(true);
     }
 
+    void CloseAllCams()
+    {
+        normalCam.SetActive(false);
+        kilicCam.SetActive(false);
+        mizrakCam.SetActive(false);
+        okCam.SetActive(false);
+    }
+    
     //Player sahneler arasi geciste hareket etmesin
     public void PlayerStop()
     {
